@@ -133,10 +133,10 @@ export default {
     align-content: center;
     align-items: center;
     text-align: center;
-    max-width: 350px;
+    max-width: 400px;
+    box-sizing: border-box;
     width: 100%;
     padding: 50px 20px;
-    border: 1px solid #cacaca7a;
     border-radius: 10px;
     background: #ebebeb;
     box-shadow: 0 5px 15px rgb(0 0 0 / 19%), 0 6px 30px rgb(0 0 0 / 10%);
@@ -201,5 +201,24 @@ export default {
     border: 1px dotted #2a5520e6;
     width: 300px;
     text-align: center;
+  }
+
+  @media (max-width: 450px) {
+    .container {
+      max-width: 350px;
+    }
+
+    .h4 {
+      font-size: 14px;
+    }
+
+    h1 {
+      font-size: 25px;
+      text-align: center;
+    }
+
+    img {
+      width: 100px;
+    }
   }
 </style>
