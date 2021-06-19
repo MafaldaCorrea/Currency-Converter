@@ -5,7 +5,7 @@
     <div class="container">
         <div class="container-row container-source">
           <select name="source-currency" id="source-currency" v-model="source_currency" @change="calculateRate()">
-            <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
+            <option v-for="(currency, currencyCode) in currencies" :key="currency" :value="currencyCode">{{currencyCode}} ({{currency}})</option>
           </select>
           <input type="number" name="input-source" id="input-source" v-model="source_amount" @input="calculateRateFromSource()">
         </div>
@@ -15,7 +15,7 @@
         </div>
         <div class="container-row container-target">
           <select name="target-currency" id="target-currency" v-model="target_currency" @change="calculateRate()">
-            <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
+            <option v-for="(currency, currencyCode) in currencies" :key="currency" :value="currencyCode">{{currencyCode}} ({{currency}})</option>
           </select>
           <input type="number" name="target-source" id="target-source" placeholder="0" v-model="target_amount" @input="calculateRateFromTarget()">
         </div>
@@ -57,9 +57,16 @@ export default {
       .then(data => {
         this.data = data;
         this.rates = data.rates;
-        this.currencies = Object.keys(this.rates);
         this.calculateRate();
         this.updateTimestamp();
+      })
+    },
+
+    fetchCurrencies() {
+      fetch(`http://api.exchangeratesapi.io/v1/symbols?access_key=${this.apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        this.currencies = data.symbols;
       })
     },
 
@@ -100,6 +107,7 @@ export default {
 
   mounted() {
     this.fetchData();
+    this.fetchCurrencies();
   }
 };
 </script>
@@ -139,7 +147,7 @@ export default {
     padding: 50px 20px;
     border-radius: 10px;
     background: #ebebeb;
-    box-shadow: 0 5px 15px rgb(0 0 0 / 19%), 0 6px 30px rgb(0 0 0 / 10%);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.19), 0 6px 30px rgba(0,0,0,0.1);
   }
 
   .container-row {
@@ -175,7 +183,8 @@ export default {
     font-size: 14px;
     height: 35px;
     box-sizing: border-box;
-    width: 30%;
+    width: 65%;
+    font-size: 12px;
   }
 
   input {
@@ -186,7 +195,7 @@ export default {
     font-size: 16px;
     height: 35px;
     box-sizing: border-box;
-    width: 70%;
+    width: 35%;
   }
 
   .h4 {
