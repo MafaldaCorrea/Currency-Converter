@@ -7,7 +7,7 @@
           <select name="source-currency" id="source-currency" v-model="source_currency" @change="calculateRate()">
             <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
           </select>
-          <input type="number" name="input-source" id="input-source" v-model="source_amount" @input="calculateRate()">
+          <input type="number" name="input-source" id="input-source" v-model="source_amount" @input="calculateRateFromSource()">
         </div>
         <div class="container-info">
             <button @click="switchValues()">Switch</button>
@@ -17,11 +17,13 @@
           <select name="target-currency" id="target-currency" v-model="target_currency" @change="calculateRate()">
             <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
           </select>
-          <input type="number" name="target-source" id="target-source" placeholder="0" disabled v-model="target_amount">
+          <input type="number" name="target-source" id="target-source" placeholder="0" v-model="target_amount" @input="calculateRateFromTarget()">
         </div>
         <div class="container-update">
           <div class="last-updated h4">Last updated: {{data.date}}</div>
-          <button>Update</button>
+            <button class="button" @click="fetchData()">Update</button>
+          </div>
+          <p class="update-message" v-show="showUpdateMessage">{{updateMessage}}</p>
         </div>
     </div>
   </div>
@@ -35,11 +37,15 @@ export default {
       rates:[],
       currencies:[],
       rate: "",
-      source_currency: "CAD",
+      rawRate: "",
+      source_currency: "EUR",
       target_currency: "USD",
       source_amount: 1,
       target_amount: 0,
-      apiKey : "9b6b363f0a5f9b1567602af4c61828dd"
+      timestamp: "",
+      apiKey : "9b6b363f0a5f9b1567602af4c61828dd",
+      showUpdateMessage: false,
+      updateMessage: "",
     }
   },
 
@@ -52,14 +58,22 @@ export default {
         this.rates = data.rates;
         this.currencies = Object.keys(this.rates);
         this.calculateRate();
-        console.log("here")
+        this.updateTimestamp();
       })
     },
 
     calculateRate() {
-        var rawRate = this.rates[this.target_currency] / this.rates[this.source_currency];
-        this.rate = rawRate.toFixed(5);
-        this.target_amount = (this.source_amount * rawRate).toFixed(2);
+      this.rawRate = this.rates[this.target_currency] / this.rates[this.source_currency];
+      this.rate = this.rawRate.toFixed(5);
+      this.calculateRateFromSource();
+    },
+    
+    calculateRateFromSource() {
+      this.target_amount = (this.source_amount * this.rawRate).toFixed(2);
+    },
+
+    calculateRateFromTarget() {
+      this.source_amount = (this.target_amount / this.rawRate).toFixed(2);
     },
 
     switchValues() {
@@ -67,6 +81,19 @@ export default {
       this.source_currency = this.target_currency;
       this.target_currency = sourceCurrency;
       this.calculateRate();
+    },
+
+    updateTimestamp() {
+      if (this.timestamp) {
+        this.showUpdateMessage = true;
+        this.updateMessage = this.timestamp != this.data.timestamp ?
+           "Currency rates have been updated" :
+           "No changes to the currency rates"
+        this.timestamp = this.data.timestamp;
+        setTimeout(() => this.showUpdateMessage = false, 2000);
+      } else {
+        this.timestamp = this.data.timestamp;
+      }
     }
   },
 
