@@ -4,29 +4,24 @@
     <h1>Currency Converter App</h1>
     <div class="container">
         <div class="container-source">
-          <select name="source-currency" id="source-currency">
-            <option value="CAD">CAD</option>
-            <option value="DKK">DKK</option>
-            <option value="GBD">GBD</option>
-            <option value="EUR">EUR</option>
+          <select name="source-currency" id="source-currency" v-model="source_currency" @change="calculateRate()">
+            <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
           </select>
-          <input type="number" name="input-source" id="input-source">
+          <input type="number" name="input-source" id="input-source" v-model="source_amount" @input="calculateRate()">
         </div>
         <div class="container-info">
-            <button>Switch</button>
-            <div id="baseValue" class="h4">1 USD = 0.9194</div>
+            <button @click="switchValues()">Switch</button>
+            <div id="baseValue" class="h4">1 {{source_currency}} = {{rate}} {{target_currency}}</div>
         </div>
         <div class="container-target">
-          <select name="target-currency" id="target-currency">
-            <option value="CAD">CAD</option>
-            <option value="DKK">DKK</option>
-            <option value="GBD">GBD</option>
-            <option value="EUR">EUR</option>
+          <select name="target-currency" id="target-currency" v-model="target_currency" @change="calculateRate()">
+            <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
           </select>
-          <input type="number" name="target-source" id="target-source" placeholder="0" disabled>
+          <input type="number" name="target-source" id="target-source" placeholder="0" disabled v-model="target_amount">
         </div>
         <div class="container-update">
-          <div class="last-updated h4">Last updated: 19th June 2021</div>
+          <div class="last-updated h4">Last updated: {{data.date}}</div>
+          <button>Update</button>
         </div>
     </div>
   </div>
@@ -34,7 +29,51 @@
 
 <script>
 export default {
+  data() {
+    return {
+      data:[],
+      rates:[],
+      currencies:[],
+      rawRate: "",
+      rate: "",
+      source_currency: "CAD",
+      target_currency: "USD",
+      source_amount: 1,
+      target_amount: 0,
+      apiKey : "9b6b363f0a5f9b1567602af4c61828dd"
+    }
+  },
   
+  methods: {
+    fetchData(){
+      fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${this.apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        this.data = data;
+        this.rates = data.rates;
+        this.currencies = Object.keys(this.rates);
+        this.calculateRate();
+        console.log("here")
+      })
+    },
+
+    calculateRate() {
+        this.rawRate = this.rates[this.target_currency] / this.rates[this.source_currency];
+        this.rate = this.rawRate.toFixed(5);
+        this.target_amount = (this.source_amount * this.rawRate).toFixed(2);
+    },
+
+    switchValues() {
+      const sourceCurrency = this.source_currency;
+      this.source_currency = this.target_currency;
+      this.target_currency = sourceCurrency;
+      this.calculateRate();
+    }
+  },
+
+  mounted() {
+    this.fetchData();
+  }
 };
 </script>
 
@@ -74,7 +113,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 50%;
+    width: 60%;
   }
 
   .container-info button {
