@@ -3,24 +3,25 @@
     <img alt="Vue logo" src="./assets/logo.png">
     <h1>Currency Converter App</h1>
     <div class="container">
-        <div class="container-source">
+        <div class="container-row container-source">
           <select name="source-currency" id="source-currency" v-model="source_currency" @change="calculateRate()">
             <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
           </select>
           <input type="number" name="input-source" id="input-source" v-model="source_amount" @input="calculateRateFromSource()">
         </div>
-        <div class="container-info">
-            <button @click="switchValues()">Switch</button>
+        <div class="container-row container-info">
+            <button class="button" @click="switchValues()">Switch</button>
             <div id="baseValue" class="h4">1 {{source_currency}} = {{rate}} {{target_currency}}</div>
         </div>
-        <div class="container-target">
+        <div class="container-row container-target">
           <select name="target-currency" id="target-currency" v-model="target_currency" @change="calculateRate()">
             <option v-for="currency in currencies" :key="currency" :value="currency">{{currency}}</option>
           </select>
           <input type="number" name="target-source" id="target-source" placeholder="0" v-model="target_amount" @input="calculateRateFromTarget()">
         </div>
         <div class="container-update">
-          <div class="last-updated h4">Last updated: {{data.date}}</div>
+          <div class="container-row">
+            <div class="last-updated h4">Last updated: {{data.date}}</div>
             <button class="button" @click="fetchData()">Update</button>
           </div>
           <p class="update-message" v-show="showUpdateMessage">{{updateMessage}}</p>
@@ -126,24 +127,36 @@ export default {
   }
 
   .container {
-    width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-content: center;
     align-items: center;
     text-align: center;
+    max-width: 350px;
+    width: 100%;
+    padding: 50px 20px;
+    border: 1px solid #cacaca7a;
+    border-radius: 10px;
+    background: #ebebeb;
+    box-shadow: 0 5px 15px rgb(0 0 0 / 19%), 0 6px 30px rgb(0 0 0 / 10%);
   }
 
-  .container-info {
+  .container-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 60%;
+    width: 100%;
   }
 
-  .container-info button {
+  .container-update {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .button {
     padding: 5px;
+    margin: 0 5px;
     font-size: 16px;
     background-color: #35495e;
     color: #ffffff;
@@ -162,6 +175,7 @@ export default {
     font-size: 14px;
     height: 35px;
     box-sizing: border-box;
+    width: 30%;
   }
 
   input {
@@ -172,10 +186,18 @@ export default {
     font-size: 16px;
     height: 35px;
     box-sizing: border-box;
+    width: 70%;
   }
 
   .h4 {
     font-weight: 500;
   }
 
+  .update-message {
+    background: #2a552091;
+    font-size: 14px;
+    padding: 10px;
+    color: white;
+    border: 1px dotted #2a5520e6;
+  }
 </style>
