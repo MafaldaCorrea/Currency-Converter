@@ -34,7 +34,6 @@ export default {
       data:[],
       rates:[],
       currencies:[],
-      rawRate: "",
       rate: "",
       source_currency: "CAD",
       target_currency: "USD",
@@ -43,7 +42,7 @@ export default {
       apiKey : "9b6b363f0a5f9b1567602af4c61828dd"
     }
   },
-  
+
   methods: {
     fetchData(){
       fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${this.apiKey}`)
@@ -58,9 +57,9 @@ export default {
     },
 
     calculateRate() {
-        this.rawRate = this.rates[this.target_currency] / this.rates[this.source_currency];
-        this.rate = this.rawRate.toFixed(5);
-        this.target_amount = (this.source_amount * this.rawRate).toFixed(2);
+        var rawRate = this.rates[this.target_currency] / this.rates[this.source_currency];
+        this.rate = rawRate.toFixed(5);
+        this.target_amount = (this.source_amount * rawRate).toFixed(2);
     },
 
     switchValues() {
