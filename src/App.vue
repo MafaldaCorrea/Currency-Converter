@@ -120,9 +120,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-content: center;
-    width: 100%;
-    height: 100%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   }
 
@@ -135,30 +132,21 @@ export default {
   }
 
   .container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    text-align: center;
-    max-width: 400px;
     box-sizing: border-box;
-    width: 100%;
     padding: 50px 20px;
     border-radius: 10px;
     background: #ebebeb;
     box-shadow: 0 5px 15px rgba(0,0,0,0.19), 0 6px 30px rgba(0,0,0,0.1);
+    max-width: 450px;
   }
 
   .container-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
   }
 
   .container-update {
-    width: 100%;
     margin-top: 20px;
   }
 
@@ -170,7 +158,6 @@ export default {
     color: #ffffff;
     width: 30%;
     min-width: 80px;
-    height: 10%;
     border: none;
     outline: none;
   }
@@ -178,9 +165,8 @@ export default {
   select {
     padding: 5px;
     margin: 10px 5px;
-    border: 1px solid rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,0,0,0.2);
     outline: none;
-    font-size: 14px;
     height: 35px;
     box-sizing: border-box;
     width: 65%;
@@ -190,7 +176,7 @@ export default {
   input {
     padding: 5px;
     margin: 10px 5px;
-    border: 1px solid rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,0,0,0.2);
     outline: none;
     font-size: 16px;
     height: 35px;
@@ -200,6 +186,7 @@ export default {
 
   .h4 {
     font-weight: 500;
+    font-size: 14px;
   }
 
   .update-message {
@@ -210,6 +197,7 @@ export default {
     border: 1px dotted #2a5520e6;
     width: 300px;
     text-align: center;
+    box-sizing: border-box;
   }
 
   @media (max-width: 450px) {
@@ -218,7 +206,7 @@ export default {
     }
 
     .h4 {
-      font-size: 14px;
+      font-size: 12px;
     }
 
     h1 {
