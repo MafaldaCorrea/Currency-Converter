@@ -24,9 +24,9 @@
             <div class="last-updated h4">Last updated: {{data.date}}</div>
             <button class="button" @click="fetchData()">Update</button>
           </div>
-          <p class="update-message" v-show="showUpdateMessage">{{updateMessage}}</p>
         </div>
     </div>
+    <p class="update-message" v-show="showUpdateMessage">{{updateMessage}}</p>
   </div>
 </template>
 
@@ -199,5 +199,7 @@ export default {
     padding: 10px;
     color: white;
     border: 1px dotted #2a5520e6;
+    width: 300px;
+    text-align: center;
   }
 </style>
