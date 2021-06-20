@@ -126,10 +126,6 @@ export default {
     color: #35495e;
   }
 
-  img {
-    width: 150px;
-  }
-
   .container {
     box-sizing: border-box;
     padding: 50px 20px;
@@ -220,10 +216,6 @@ export default {
     h1 {
       font-size: 25px;
       text-align: center;
-    }
-
-    img {
-      width: 100px;
     }
   }
 </style>
