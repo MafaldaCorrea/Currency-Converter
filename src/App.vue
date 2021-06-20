@@ -3,20 +3,20 @@
     <h1>Currency Converter App</h1>
     <div class="container">
         <div class="container-row container-source">
-          <select name="source-currency" id="source-currency" v-model="source_currency" @change="calculateRate()">
+          <select name="source-currency" id="source-currency" v-model="source_currency" @change="calculateRate()" aria-label="Source currency">
             <option v-for="(currency, currencyCode) in currencies" :key="currency" :value="currencyCode">{{currencyCode}} ({{currency}})</option>
           </select>
-          <input type="number" name="input-source" id="input-source" v-model="source_amount" @input="calculateRateFromSource()">
+          <input type="number" name="input-source" id="input-source" v-model="source_amount" @input="calculateRateFromSource()" aria-label="Source currency amount">
         </div>
         <div class="container-row container-info">
             <button class="button" @click="switchValues()">Switch</button>
-            <div id="baseValue" class="h4">1 {{source_currency}} = {{rate}} {{target_currency}}</div>
+            <div id="baseValue" class="h4" role="alert">1 {{source_currency}} = {{rate}} {{target_currency}}</div>
         </div>
         <div class="container-row container-target">
-          <select name="target-currency" id="target-currency" v-model="target_currency" @change="calculateRate()">
+          <select name="target-currency" id="target-currency" v-model="target_currency" @change="calculateRate()" aria-label="Target currency">
             <option v-for="(currency, currencyCode) in currencies" :key="currency" :value="currencyCode">{{currencyCode}} ({{currency}})</option>
           </select>
-          <input type="number" name="target-source" id="target-source" placeholder="0" v-model="target_amount" @input="calculateRateFromTarget()">
+          <input type="number" name="target-source" id="target-source" placeholder="0" v-model="target_amount" @input="calculateRateFromTarget()" aria-label="Target currency amount">
         </div>
         <div class="container-update">
           <div class="container-row">
@@ -25,7 +25,7 @@
           </div>
         </div>
     </div>
-    <p class="update-message" v-show="showUpdateMessage">{{updateMessage}}</p>
+    <p class="update-message" v-show="showUpdateMessage" role="alert">{{updateMessage}}</p>
   </div>
 </template>
 
@@ -159,6 +159,11 @@ export default {
     min-width: 80px;
     border: none;
     outline: none;
+    transition: background-color .7s;
+  }
+
+  .button:hover {
+    background: #35495ed9;
   }
 
   select {
@@ -170,6 +175,10 @@ export default {
     box-sizing: border-box;
     width: 65%;
     font-size: 12px;
+  }
+
+  *:focus {
+    outline: 2px solid rgba(0,0,0,0.7); 
   }
 
   input {
