@@ -1,24 +1,20 @@
-# currency-converter
+# Currency Converter App
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Simple exchange currency app, built with Vue.js.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+#### URL: [http://currency-exchange.freecluster.eu](http://currency-exchange.freecluster.eu/)
 
-### Lints and fixes files
-```
-npm run lint
-```
+#### Features:
+- Ability to select the source and target currencies
+- Ability to input both source or target amount to get conversion
+- Switch button to swap source and target currencies
+- Update button to check for updated rates
+- Fully accessible for screen readers
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Languages
+HTML, CSS, Vue.js
+
+### Exchange Rates Third Party API
+
+[https://ratesapi.io/](https://ratesapi.io/)
